@@ -84,8 +84,10 @@ const DashboardPage = () => {
     },
     [setIsLoading, setMessages]
   );
+
   useEffect(() => {
     if (!session || !session.user) return;
+    fetchMessages();
     fetchAcceptMessage();
   }, [session, setValue, fetchAcceptMessage]);
 
@@ -113,7 +115,7 @@ const DashboardPage = () => {
     }
   };
 
-  const username = session?.user as User;
+  const username = session?.user as User; // verify once for username if we are getting it properly
   // todo do more research
   const baseurl = `${window.location.protocol}//${window.location.host}`;
   const profileUrl = `${baseurl}/u/${username}`;

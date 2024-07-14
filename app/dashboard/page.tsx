@@ -115,7 +115,7 @@ const DashboardPage = () => {
     }
   };
 
-  const username = session?.user as User; // verify once for username if we are getting it properly
+  const { username } = (session && (session?.user as User)) || { username: '' }; // verify once for username if we are getting it properly
   // todo do more research
   const baseurl = `${window.location.protocol}//${window.location.host}`;
   const profileUrl = `${baseurl}/u/${username}`;

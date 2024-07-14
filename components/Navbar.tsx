@@ -25,20 +25,15 @@ const Navbar = () => {
             >
               cipherchat.ai
             </Link>
-            <div className="flex gap-6 items-center">
+            <div className="flex gap-3 items-center">
+              {session ? (
+                <span>Welcome, {user?.username || user.email}</span>
+              ) : null}
               <ModeToggle />
               {session ? (
-                <>
-                  <span className="mr-4">
-                    Welcome, {user?.username || user.email}
-                  </span>
-                  <Button
-                    className="w-full md:w-auto"
-                    onClick={() => signOut()}
-                  >
-                    Logout
-                  </Button>
-                </>
+                <Button className="w-full md:w-auto" onClick={() => signOut()}>
+                  Logout
+                </Button>
               ) : (
                 <Link href="/signin">
                   <Button className="w-full md:w-auto">Login</Button>

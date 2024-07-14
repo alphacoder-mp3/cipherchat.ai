@@ -39,7 +39,7 @@ const DashboardPage = () => {
     setIsSwitchLoading(true);
     try {
       const response = await axios.get<ApiResponse>('/api/accept-messages');
-      setValue('acceptMessage', response.data.isAcceptingMessages);
+      setValue('acceptMessage', response.data.isAcceptingMessage);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
@@ -60,8 +60,8 @@ const DashboardPage = () => {
       setIsSwitchLoading(false);
       try {
         const response = await axios.get('/api/get-messages');
-        // const datat = response.data.messages;
-        const datat: string[] | undefined = response?.data?.messages;
+        // const data = response.data.messages;
+        const data: string[] | undefined = response?.data?.messages;
 
         setMessages(response?.data?.messages || []);
 
@@ -115,8 +115,7 @@ const DashboardPage = () => {
       });
     }
   };
-  // const {username}  = session?.user as User
-  // replace error me
+
   const username = session?.user as User;
   // todo do more research
   const baseurl = `${window.location.protocol}//${window.location.host}`;

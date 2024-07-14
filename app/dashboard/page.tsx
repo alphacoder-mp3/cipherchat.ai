@@ -87,8 +87,8 @@ const DashboardPage = () => {
 
   useEffect(() => {
     if (!session || !session.user) return;
-    fetchMessages();
-    fetchAcceptMessage();
+    // fetchMessages();
+    // fetchAcceptMessage();
   }, [session, setValue, fetchAcceptMessage]);
 
   // handle switch

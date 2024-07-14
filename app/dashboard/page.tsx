@@ -60,9 +60,6 @@ const DashboardPage = () => {
       setIsSwitchLoading(false);
       try {
         const response = await axios.get('/api/get-messages');
-        // const data = response.data.messages;
-        const data: string[] | undefined = response?.data?.messages;
-
         setMessages(response?.data?.messages || []);
 
         if (refresh) {

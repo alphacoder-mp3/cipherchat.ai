@@ -116,9 +116,15 @@ const DashboardPage = () => {
   };
 
   const { username } = (session && (session?.user as User)) || { username: '' }; // verify once for username if we are getting it properly
+
   // todo do more research
-  const baseurl = `${window.location.protocol}//${window.location.host}`;
+  const baseurl =
+    typeof window !== 'undefined'
+      ? `${window.location.protocol}//${window.location.host}`
+      : process.env.NEXT_PUBLIC_BASE_URL;
+
   const profileUrl = `${baseurl}/u/${username}`;
+
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
     toast({
@@ -133,7 +139,7 @@ const DashboardPage = () => {
     <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 rounded w-full max-w-6xl">
       <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
       <div className="mb-4">
-        <h2 className="text-lg font-semibold mb-2">Copy You Unique Link</h2>
+        <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>
         <div className="flex items-center">
           <input
             type="text"

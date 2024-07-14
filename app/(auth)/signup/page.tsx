@@ -30,8 +30,8 @@ function SignUpPage() {
 
   const debounced = useDebounceCallback(setUsername, 300);
   const { toast } = useToast();
-  // const router = useRouter()
   const router = useRouter();
+
   // zod implementation
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),

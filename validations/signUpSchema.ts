@@ -6,7 +6,7 @@ export const usernameSchema = z
   .max(15, 'Username should not be more than 20 characters')
   .regex(/^[a-zA-Z0-9_]+$/, 'Username should not contain special character');
 
-export const singUpSchema = z.object({
+export const signUpSchema = z.object({
   username: usernameSchema,
   email: z.string().email({ message: 'Invalid email address' }),
   password: z

@@ -4,6 +4,7 @@ import AuthProvider from '@/context/authProvider';
 import './globals.css';
 import { ThemeProvider } from '@/context/themeprovider';
 import { Toaster } from '@/components/ui/toaster';
+import Navbar from '@/components/Navbar';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -17,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <AuthProvider>
           <ThemeProvider
@@ -26,6 +27,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <Navbar />
             {children}
             <Toaster />
           </ThemeProvider>

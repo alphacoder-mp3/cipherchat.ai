@@ -36,7 +36,7 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
     toast({
       title: response?.data.message,
     });
-    onMessageDelete(message._id);
+    onMessageDelete(message._id as string);
   };
 
   const date = new Date(message.createdAt);

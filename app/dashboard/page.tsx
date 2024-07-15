@@ -1,6 +1,5 @@
 'use client';
 
-import MessageCard from '@/components/MessageCard';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
@@ -15,6 +14,8 @@ import { User } from 'next-auth';
 import { useSession } from 'next-auth/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import dynamic from 'next/dynamic';
+const MessageCard = dynamic(() => import('@/components/MessageCard'));
 
 const DashboardPage = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -87,9 +88,9 @@ const DashboardPage = () => {
 
   useEffect(() => {
     if (!session || !session.user) return;
-    // fetchMessages();
-    // fetchAcceptMessage();
-  }, [session, setValue, fetchAcceptMessage]);
+    fetchMessages();
+    fetchAcceptMessage();
+  }, [session]);
 
   // handle switch
 
@@ -115,9 +116,8 @@ const DashboardPage = () => {
     }
   };
 
-  const { username } = (session && (session?.user as User)) || { username: '' }; // verify once for username if we are getting it properly
+  const { username } = (session && (session?.user as User)) || { username: '' };
 
-  // todo do more research
   const baseurl =
     typeof window !== 'undefined'
       ? `${window.location.protocol}//${window.location.host}`
@@ -132,6 +132,7 @@ const DashboardPage = () => {
       description: 'Profile URL has been copied to clipboard',
     });
   };
+
   if (!session || !session.user) {
     return <div>Please login</div>;
   }
@@ -181,9 +182,9 @@ const DashboardPage = () => {
 
       <div className="mt-4 grid grid-cols-1 md:grid-col-2 gap-6">
         {messages.length > 0 ? (
-          messages.map((message, index) => (
+          messages.map((message: Message) => (
             <MessageCard
-              key={message._id}
+              key={message._id as string}
               message={message}
               onMessageDelete={handleDeleteMessage}
             />

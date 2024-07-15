@@ -1,11 +1,11 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/options';
-import UserModel from '@/models/User';
+import UserModel, { Message } from '@/models/User';
 import dbConnect from '@/lib/dbConnect';
 import { User } from 'next-auth';
 import mongoose from 'mongoose';
 
-export async function GET(request: Request) {
+export async function GET() {
   await dbConnect();
 
   const session = await getServerSession(authOptions);
@@ -27,11 +27,7 @@ export async function GET(request: Request) {
       { $match: { _id: userId } },
       {
         $project: {
-          username: 1,
-          email: 1,
           messages: 1,
-          isVerified: 1,
-          isAcceptingMessage: 1,
         },
       },
     ]);
@@ -46,10 +42,27 @@ export async function GET(request: Request) {
       );
     }
 
+    const userMessages = user[0].messages;
+
+    if (!userMessages || userMessages.length === 0) {
+      return Response.json(
+        {
+          success: true,
+          messages: [],
+        },
+        { status: 200 }
+      );
+    }
+
+    const sortedMessages = userMessages.sort(
+      (a: Message, b: Message) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+
     return Response.json(
       {
         success: true,
-        messages: user[0].messages,
+        messages: sortedMessages,
       },
       { status: 200 }
     );

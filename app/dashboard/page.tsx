@@ -179,7 +179,7 @@ const DashboardPage = () => {
         )}
       </Button>
 
-      <div className="mt-4 grid grid-cols-1 md:grid-col-2 gap-6">
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
         {messages.length > 0 ? (
           messages.map((message: Message) => (
             <MessageCard

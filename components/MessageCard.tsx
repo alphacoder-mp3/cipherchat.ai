@@ -59,13 +59,15 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
       <CardHeader>
         <div className="flex justify-between">
           <div className="flex gap-2 flex-col justify-center">
-            <CardTitle>{message.content}</CardTitle>
-            <CardDescription>{humanReadableDate}</CardDescription>
+            <CardTitle className="max-w-md px-2">{message.content}</CardTitle>
+            <CardDescription className="p-2">
+              {humanReadableDate}
+            </CardDescription>
           </div>
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <TrashIcon className="hover:cursor-pointer h-10 w-10 bg-orange-800 p-2 rounded-lg text-white" />
+              <TrashIcon className="hover:cursor-pointer h-9 w-9 bg-orange-800 p-2 rounded-lg text-white" />
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>

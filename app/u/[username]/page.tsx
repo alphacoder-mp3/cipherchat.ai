@@ -21,6 +21,8 @@ function UsernamePage() {
     },
   });
 
+  const { reset, control, handleSubmit } = form;
+
   async function onSubmit(data: z.infer<typeof messageSchema>) {
     try {
       const response = await axios.post<ApiResponse>(`/api/send-message`, {
@@ -35,6 +37,7 @@ function UsernamePage() {
           </pre>
         ),
       });
+      reset(); // Attempt to reset the form
     } catch (error) {
       console.error('Error in signup of user', error);
       const axiosError = error as AxiosError<ApiResponse>;
@@ -57,11 +60,11 @@ function UsernamePage() {
       </div>
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
           className="mt-8 w-svw space-y-6 flex flex-col justify-center items-center"
         >
           <FormField
-            control={form.control}
+            control={control}
             name="content"
             render={({ field }) => (
               <FormItem>

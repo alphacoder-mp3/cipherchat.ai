@@ -21,7 +21,7 @@ const Navbar = () => {
           <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
             <Link
               className="text-xl font-bold mb-4 md:mb-0 bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 px-4 p-2 rounded-md text-white"
-              href="#"
+              href="/"
             >
               cipherchat.ai
             </Link>

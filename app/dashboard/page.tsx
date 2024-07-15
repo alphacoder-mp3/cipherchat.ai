@@ -10,9 +10,8 @@ import { ApiResponse } from '@/types/ApiResponse';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios, { AxiosError } from 'axios';
 import { Loader2, RefreshCcw } from 'lucide-react';
-import { User } from 'next-auth';
 import { useSession } from 'next-auth/react';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import dynamic from 'next/dynamic';
 const MessageCard = dynamic(() => import('@/components/MessageCard'));
@@ -22,17 +21,11 @@ const DashboardPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
   const { toast } = useToast();
-
-  const handleDeleteMessage = (messageId: string) => {
-    setMessages(messages.filter(message => message._id !== messageId));
-  };
   const { data: session } = useSession();
 
-  const form = useForm({
+  const { register, watch, setValue } = useForm({
     resolver: zodResolver(acceptMessageSchema),
   });
-
-  const { register, watch, setValue } = form;
 
   const acceptMessages = watch('acceptMessage');
 
@@ -53,7 +46,7 @@ const DashboardPage = () => {
     } finally {
       setIsSwitchLoading(false);
     }
-  }, [setValue]);
+  }, [setValue, toast]);
 
   const fetchMessages = useCallback(
     async (refresh: boolean = false) => {
@@ -83,18 +76,22 @@ const DashboardPage = () => {
         setIsSwitchLoading(false);
       }
     },
-    [setIsLoading, setMessages]
+    [toast]
   );
 
   useEffect(() => {
     if (!session || !session.user) return;
     fetchMessages();
     fetchAcceptMessage();
-  }, [session]);
+  }, [session, fetchMessages, fetchAcceptMessage]);
 
-  // handle switch
+  const handleDeleteMessage = useCallback((messageId: string) => {
+    setMessages(prevMessages =>
+      prevMessages.filter(message => message._id !== messageId)
+    );
+  }, []);
 
-  const handleSwitchChange = async () => {
+  const handleSwitchChange = useCallback(async () => {
     try {
       const response = await axios.post<ApiResponse>('/api/accept-messages', {
         acceptMessages: !acceptMessages,
@@ -114,16 +111,18 @@ const DashboardPage = () => {
         variant: 'destructive',
       });
     }
-  };
+  }, [acceptMessages, setValue, toast]);
 
-  const { username } = (session && (session?.user as User)) || { username: '' };
-
-  const baseurl =
-    typeof window !== 'undefined'
+  const baseurl = useMemo(() => {
+    return typeof window !== 'undefined'
       ? `${window.location.protocol}//${window.location.host}`
       : process.env.NEXT_PUBLIC_BASE_URL;
+  }, []);
 
-  const profileUrl = `${baseurl}/u/${username}`;
+  const profileUrl = useMemo(
+    () => `${baseurl}/u/${session?.user?.username}`,
+    [baseurl, session]
+  );
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
@@ -134,7 +133,7 @@ const DashboardPage = () => {
   };
 
   if (!session || !session.user) {
-    return <div>Please login</div>;
+    return <div className="text-3xl text-center">Please login</div>;
   }
   return (
     <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 rounded w-full max-w-6xl">

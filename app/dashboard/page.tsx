@@ -96,7 +96,7 @@ const DashboardPage = () => {
       const response = await axios.post<ApiResponse>('/api/accept-messages', {
         acceptMessages: !acceptMessages,
       });
-      setValue('acceptMessages', !acceptMessages);
+      setValue('acceptMessage', !acceptMessages);
       toast({
         title: response.data.message,
         variant: 'default',

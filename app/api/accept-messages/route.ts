@@ -44,7 +44,8 @@ export async function POST(request: Request) {
       {
         success: true,
         message: 'Message acceptance status updated successfully',
-        updatedUser,
+        // updatedUser,
+        isAcceptingMessage: updatedUser.isAcceptingMessage,
       },
       { status: 200 }
     );

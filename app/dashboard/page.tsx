@@ -21,7 +21,7 @@ const DashboardPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
   const { toast } = useToast();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const { register, watch, setValue } = useForm({
     resolver: zodResolver(acceptMessageSchema),
@@ -132,7 +132,18 @@ const DashboardPage = () => {
     });
   };
 
-  if (!session || !session.user) {
+  if (status === 'loading') {
+    return (
+      <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 rounded w-full max-w-6xl">
+        <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>
+        </div>
+        <div className="animate-pulse rounded-md bg-muted h-40 w-full"></div>
+      </div>
+    );
+  }
+  if (status === 'authenticated' && (!session || !session.user)) {
     return <div className="text-3xl text-center">Please login</div>;
   }
   return (

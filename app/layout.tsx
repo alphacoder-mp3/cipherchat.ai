@@ -5,6 +5,7 @@ import './globals.css';
 import { ThemeProvider } from '@/context/themeprovider';
 import { Toaster } from '@/components/ui/toaster';
 import Navbar from '@/components/Navbar';
+import { TailwindIndicator } from '@/components/tailwind-indicator';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default function RootLayout({
             <Navbar />
             {children}
             <Toaster />
+            <TailwindIndicator />
           </ThemeProvider>
         </AuthProvider>
       </body>

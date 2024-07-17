@@ -59,7 +59,7 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
       <CardHeader>
         <div className="flex justify-between">
           <div className="flex gap-2 flex-col justify-center">
-            <CardTitle className="w-60 sm:w-auto md:w-96 px-2 break-words">
+            <CardTitle className="px-2 max-w-60 sm:max-w-lg md:max-w-60 lg:max-w-sm xl:max-w-md break-words">
               {message.content}
             </CardTitle>
             <CardDescription className="p-2">

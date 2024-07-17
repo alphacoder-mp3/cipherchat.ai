@@ -82,7 +82,7 @@ function UsernamePage() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-32">
+          <Button type="submit" className="w-60 md:w-32">
             Send Message
           </Button>
         </form>

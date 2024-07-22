@@ -22,7 +22,21 @@ export async function GET() {
   }
 
   const userId = new mongoose.Types.ObjectId(user._id);
+  // const userId = user._id;
   try {
+    //   const foundUser = await UserModel.findById(userId);
+    //   const sortedMessages = foundUser?.messages.sort(
+    //     (a: Message, b: Message) =>
+    //       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    //   );
+
+    //   return Response.json(
+    //     {
+    //       success: true,
+    //       messages: sortedMessages,
+    //     },
+    //     { status: 200 }
+    //   );
     const user = await UserModel.aggregate([
       { $match: { _id: userId } },
       {

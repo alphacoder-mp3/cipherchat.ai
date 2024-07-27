@@ -24,7 +24,13 @@ function UsernamePage() {
     },
   });
 
-  const { reset, control, handleSubmit, setValue } = form;
+  const {
+    reset,
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = form;
 
   async function onSubmit(data: z.infer<typeof messageSchema>) {
     try {
@@ -82,6 +88,9 @@ function UsernamePage() {
               </FormItem>
             )}
           />
+          {errors.content && (
+            <p className="text-red-500">{errors.content.message}</p>
+          )}
           <Button type="submit" className="w-60 md:w-32">
             Send Message
           </Button>
